@@ -19,3 +19,7 @@ class Database:
         except Exception as e:
             print(e)
             raise e
+        
+    @classmethod
+    async def close_db(cls):
+        cls.MOTOR_CLIENT.close()

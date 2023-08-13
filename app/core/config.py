@@ -4,7 +4,8 @@ from pathlib import Path
 
 class Setting:
     PRODUCTION_MODE: bool = False
-    BACK_URL: str = 'http://localhost:8000/'
+    BACK_URL: str = 'http://localhost/'
+    BACK_PORT: int = 8000
     C_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     ROOT_DIR = os.path.dirname(os.path.abspath(C_PATH))
     FOLDER_DIR = Path(ROOT_DIR) / 'app'

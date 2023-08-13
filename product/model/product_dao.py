@@ -9,6 +9,7 @@ from beanie import PydanticObjectId
 
 COLLECTION_NAME = "Products"
 
+
 class ProductDao:
     class Product(Document):
         id: PydanticObjectId | None = Field(default_factory=PydanticObjectId, alias="_id")
@@ -60,4 +61,4 @@ class ProductDao:
     
     @classmethod
     async def delete_product(cls, product_id: PydanticObjectId):
-        return await cls.Product.find_one({'_id': product_id}).delete()
+        return await cls.Product.find_one({'_id': product_id}).delete() 

@@ -20,7 +20,8 @@ class ProductController:
             'message': "product successfully created",
         }
         return res
-    
+
+
     @classmethod
     async def get_one_product(cls, product_id: PydanticObjectId):
         result = await ProductService.find_one_product(product_id=product_id)
@@ -32,6 +33,7 @@ class ProductController:
             'message': "product successfully created",
         }
         return res
+    
     
     @classmethod
     async def get_all_products(cls):
@@ -60,8 +62,7 @@ class ProductController:
         product_update_query: dict = data.dict(include={"name", "price", "description"}, exclude_none=True)
         product_update_query.update({'updated_at': datetime.utcnow()})
         product_is_updated = \
-            (await ProductService.find_one_and_update_product(product_id, {"$set": product_update_query})) \
-                .raw_result["updatedExisting"]
+            (await ProductService.find_one_and_update_product(product_id, {"$set": product_update_query})) 
         if not product_is_updated:
             raise APIException(
                 errors=[
@@ -75,7 +76,7 @@ class ProductController:
         return {
             "success": True,
             "result": {
-                'product': updated_product.dict()
+                'product': updated_product
             },
             'message': "product successfully updated",
         }

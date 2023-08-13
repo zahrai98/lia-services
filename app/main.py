@@ -12,6 +12,7 @@ from app import routes
 from app.core.dependencies.database import Database
 from app.core.services.error_handler import APIException
 from app.core.services.response_handler import JsonResponseEncoder
+
 app = FastAPI(swagger_ui_parameters={"displayRequestDuration": True})
 
 
@@ -28,6 +29,10 @@ async def start_db():
     print('startup')
     await Database.init_db()
 
+@app.on_event("shutdown")
+async def shutdown_db_client():
+    await Database.close_db()
+
 app.include_router(routes.router, prefix='')
 
 
@@ -35,8 +40,7 @@ app.include_router(routes.router, prefix='')
 async def home():
     return {"message": "hello!"}
 
-#
-# # TODO Uncomment this function
+
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
     print('RequestValidationError')
@@ -46,7 +50,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
             {'message': str(exc), 'type': 'ValidationError', 'errorCode': 700, 'details': exc.errors()}]}),
     )
 
-# # TODO Uncomment this function
+
 @app.exception_handler(ValidationError)
 async def validation_exception_handler(request: Request, exc: ValidationError):
     print('RequestValidationError')
