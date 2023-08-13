@@ -5,8 +5,9 @@ import pytest
 from starlette.testclient import TestClient
 from beanie import PydanticObjectId
 
-from app.main import app
 from product.service import ProductService
+from app.main import app
+
 
 
 
