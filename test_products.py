@@ -47,7 +47,7 @@ def test_get_all_product(test_app, monkeypatch):
     assert response.json() == res
 
 
-def test_create_note(test_app, monkeypatch):
+def test_create_product(test_app, monkeypatch):
     test_request_payload = {"name": "something", "description": "something else", "price": 10}
     test_response_payload = {"_id": "1", "name": "something", "description": "something else", "price": 10}
 
@@ -93,7 +93,7 @@ def test_get_product(test_app, monkeypatch):
     assert response.json() == res
 
 
-def test_create_note_invalid_input(test_app, monkeypatch):
+def test_create_product_invalid_input(test_app, monkeypatch):
     test_request_payload = {"name": "something", "description": "something else", "price": "invalid_price"}  # مقدار نامعتبر برای price
     test_response_payload = {"_id": "1", "name": "something", "description": "something else", "price": 10}
 
@@ -177,6 +177,7 @@ def test_get_product_wrong_input(test_app, monkeypatch):
     
     monkeypatch.setattr(ProductService, "find_one_product", mock_get)
     response = test_app.get(f"/products/{invalid_product_id}")
+    
     res = {
         'success': False, 'errors': [{'message': '2 validation errors for Request\npath -> product_id\n  Id must be of type PydanticObjectId (type=type_error)\npath -> product_id\n  Id must be of type PydanticObjectId (type=type_error)', 'type': 'ValidationError', 'errorCode': 700, 'details': [{'loc': ['path', 'product_id'], 'msg': 'Id must be of type PydanticObjectId', 'type': 'type_error'}, {'loc': ['path', 'product_id'], 'msg': 'Id must be of type PydanticObjectId', 'type': 'type_error'}]}]
     }
